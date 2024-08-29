@@ -2,11 +2,13 @@ export const menuItems = [
   {
     icon: "/assets/icons/home.svg",
     title: "Dashboard",
+    path: "/",
     white: "public/assets/icons/home-white.svg",
   },
   {
     icon: "/assets/icons/news.svg",
     title: "News",
+    path: "/news",
     white: "/assets/icons/news-white.svg",
   },
   {

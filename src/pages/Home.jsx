@@ -6,8 +6,10 @@ import CryptoTable from "../components/CryptoTable";
 const Home = () => {
   return (
     <ContentWrapper>
-      <Trending />
-      <CryptoTable />
+      <div className="container mx-auto">
+        <Trending />
+        <CryptoTable />
+      </div>
     </ContentWrapper>
   );
 };

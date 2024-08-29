@@ -3,7 +3,7 @@ import { fetchTrendingCryptos } from "../utils/api";
 
 const Trending = () => {
   const [trendingCryptos, setTrendingCryptos] = useState([]);
-  const balance = 63755200; // Exemple de solde statique
+  const balance = 63755200;
 
   useEffect(() => {
     const loadTrendingCryptos = async () => {

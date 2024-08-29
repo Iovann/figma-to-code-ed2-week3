@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { menuItems } from "../data/Menuicons ";
 import MenuButton from "./MenuButton";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   Sidebar.propTypes = {
@@ -9,10 +10,22 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     toggleSidebar: PropTypes.func.isRequired,
   };
 
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeMenu, setActiveMenu] = useState("Dashboard");
 
-  const handleMenuClick = (title) => {
+  useEffect(() => {
+    if (location.pathname === "/news") {
+      setActiveMenu("News");
+    } else {
+      setActiveMenu("Dashboard");
+    }
+  }, [location.pathname]);
+
+  const handleMenuClick = (title, path) => {
     setActiveMenu(title);
+    navigate(path);
+    toggleSidebar();
   };
 
   useEffect(() => {
@@ -32,7 +45,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         ></div>
       )}
       <div
-        className={`flex  flex-col justify-between max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-30 ${
+        className={`flex flex-col justify-between max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-30 ${
           isOpen ? "max-lg:translate-x-0" : "max-lg:-translate-x-full"
         } h-screen w-64 bg-white transition-transform duration-300 ease-in-out dark:bg-tokena_dark_blue_1 dark:text-white`}
       >
@@ -66,7 +79,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     key={index}
                     icon={item.icon}
                     title={item.title}
-                    onClick={() => handleMenuClick(item.title)}
+                    onClick={() => handleMenuClick(item.title, item.path)}
                     white={item.white}
                     isValid={item.title === activeMenu}
                     dropmenu={item.dropmenu}

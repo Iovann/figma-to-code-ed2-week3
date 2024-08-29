@@ -82,7 +82,6 @@ const CryptoTable = () => {
     setCurrentPage(1); // Réinitialiser la page à 1 lors du changement de catégorie
   };
 
-  // Filtrer les cryptos en fonction du terme de recherche et de la catégorie sélectionnée
   const filteredCryptos = cryptos.filter(
     (crypto) =>
       crypto.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -132,13 +131,11 @@ const CryptoTable = () => {
 
   const handleRowsChange = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setCurrentPage(1); // Réinitialiser à la première page lors du changement du nombre de lignes
+    setCurrentPage(1);
   };
 
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // ... (autres useEffects et fonctions existants)
 
   const handleCryptoClick = async (coinId) => {
     try {
@@ -182,8 +179,7 @@ const CryptoTable = () => {
 
   return (
     <div className="w-full">
-      {/* Search and Categories Form */}
-      <div className="mb-6 flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
+      <div className="mb-6 flex flex-col items-center justify-between space-y-4 px-4 md:flex-row md:space-y-0">
         <input
           type="search"
           className="w-full rounded-lg border border-tokena_gray bg-white px-4 py-2 text-sm text-tokena_dark focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-tokena_dark_gray dark:bg-tokena_dark_blue_1 dark:text-tokena_light_gray md:w-64"
@@ -325,59 +321,53 @@ const CryptoTable = () => {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex flex-col items-center justify-between space-y-4 bg-white px-4 py-3 dark:bg-tokena_dark_blue_1 sm:flex-row sm:space-y-0">
-        <div className="flex space-x-1">
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center">
           <button
-            className="size-8 rounded-md border border-tokena_gray text-tokena_dark hover:bg-tokena_gray/10 dark:border-tokena_dark_gray dark:text-tokena_light_gray dark:hover:bg-tokena_dark_gray/30"
             onClick={() => handlePageChange(currentPage - 1)}
+            className="mr-2 rounded border border-tokena_gray p-2"
             disabled={currentPage === 1}
           >
-            &lt;
+            Prev
           </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              className={`size-8 rounded-md ${
-                currentPage === i + 1
-                  ? "bg-blue-500 text-white"
-                  : "border border-tokena_gray text-tokena_dark hover:bg-tokena_gray/10 dark:border-tokena_dark_gray dark:text-tokena_light_gray dark:hover:bg-tokena_dark_gray/30"
-              }`}
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
           <button
-            className="size-8 rounded-md border border-tokena_gray text-tokena_dark hover:bg-tokena_gray/10 dark:border-tokena_dark_gray dark:text-tokena_light_gray dark:hover:bg-tokena_dark_gray/30"
             onClick={() => handlePageChange(currentPage + 1)}
+            className="ml-2 rounded border border-tokena_gray p-2"
             disabled={currentPage === totalPages}
           >
-            &gt;
+            Next
           </button>
         </div>
-        <div className="flex items-center space-x-4">
-          <span className="text-sm text-tokena_dark dark:text-tokena_light_gray">
-            Showing {indexOfFirstCrypto + 1} to{" "}
-            {Math.min(indexOfLastCrypto, totalCryptos)} of {totalCryptos}{" "}
-            results
-          </span>
+
+        <div>
+          <label htmlFor="rowsPerPage" className="mr-2">
+            Rows per page:
+          </label>
           <select
-            className="rounded-md border border-tokena_gray bg-white px-2 py-1 text-sm text-tokena_dark focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-tokena_dark_gray dark:bg-tokena_dark_blue_1 dark:text-tokena_light_gray"
+            id="rowsPerPage"
             value={rowsPerPage}
             onChange={handleRowsChange}
+            className="rounded border border-tokena_gray p-1"
           >
+            <option value={5}>5</option>
             <option value={10}>10</option>
-            <option value={25}>25</option>
+            <option value={20}>20</option>
             <option value={50}>50</option>
           </select>
         </div>
       </div>
-
-      <CryptoModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        crypto={selectedCrypto}
-      />
+      {isModalOpen && selectedCrypto && (
+        <CryptoModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          crypto={selectedCrypto}
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+        />
+      )}
     </div>
   );
 };
