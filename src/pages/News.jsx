@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import NewsCard from "../components/NewsCard";
 import ContentWrapper from "../layout/ContentWrapper";
-import { fetchNews } from "../utils/api";
 
 const News = () => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [displayedItems, setDisplayedItems] = useState(16);
+
+  const fetchNews = async () => {
+    const response = await fetch(
+      `https://newsapi.org/v2/everything?q=tesla&from=2024-07-29&sortBy=publishedAt&apiKey=0c4b7db1e48a4d3baa3a5aeebdecaba4`
+    );
+    const data = await response.json();
+    return data.articles;
+  };
 
   useEffect(() => {
     const loadNews = async () => {
