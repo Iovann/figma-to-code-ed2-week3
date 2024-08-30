@@ -17,10 +17,9 @@ const News = () => {
       );
       const data = await response.json();
 
-      // Vérifiez si data.articles est un tableau
       if (!Array.isArray(data.articles)) {
         console.error("La réponse API n'est pas un tableau :", data.articles);
-        return news;
+        return news.articles;
       }
 
       return data.articles;
