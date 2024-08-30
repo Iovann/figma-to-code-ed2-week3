@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from "react";
 import NewsCard from "../components/NewsCard";
 import ContentWrapper from "../layout/ContentWrapper";
+import news from "../utils/news";
 
 const News = () => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [displayedItems, setDisplayedItems] = useState(16);
 
   const fetchNews = async () => {
-    const response = await fetch(
-      `https://newsapi.org/v2/everything?q=tesla&from=2024-07-29&sortBy=publishedAt&apiKey=${
-        import.meta.env.VITE_APP_NEWS_API_KEY
-      }`
-    );
-    const data = await response.json();
+    try {
+      const response = await fetch(
+        `https://newsapi.org/v2/everything?q=tesla&from=2024-07-29&sortBy=publishedAt&apiKey=${
+          import.meta.env.VITE_APP_NEWS_API_KEY
+        }`
+      );
+      const data = await response.json();
 
-    if (!Array.isArray(data.articles)) {
-      console.error("La réponse API n'est pas un tableau :", data.articles);
-      return [];
+      // Vérifiez si data.articles est un tableau
+      if (!Array.isArray(data.articles)) {
+        console.error("La réponse API n'est pas un tableau :", data.articles);
+        return news;
+      }
+
+      return data.articles;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des nouvelles :", error);
+      return news;
     }
-
-    return data.articles;
   };
 
   useEffect(() => {
     const loadNews = async () => {
       try {
-        const news = await fetchNews(page);
-        setNewsData((prevData) => [...prevData, ...news]);
+        const fetchedNews = await fetchNews();
+        setNewsData((prevData) => [...prevData, ...fetchedNews]);
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {
@@ -37,7 +43,7 @@ const News = () => {
     };
 
     loadNews();
-  }, [page]);
+  }, []);
 
   const handleLoadMore = () => {
     setDisplayedItems((prev) => prev + 16);
@@ -61,7 +67,7 @@ const News = () => {
             .map((news, index) => (
               <NewsCard
                 key={index}
-                source={news.source.name}
+                source={news.source.name || "Unknown Source"}
                 timeAgo={new Date(news.publishedAt).toLocaleDateString("en-US")}
                 title={
                   news.title.length > 100
@@ -75,7 +81,7 @@ const News = () => {
                 }
                 likes={Math.floor(Math.random() * 100)}
                 comments={Math.floor(Math.random() * 50)}
-                urlToImage={news.urlToImage}
+                urlToImage={news.urlToImage || "/path/to/default/image.jpg"}
               />
             ))}
         </div>
