@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchTrendingCryptos } from "../utils/api";
 
 const Trending = () => {
@@ -8,19 +8,21 @@ const Trending = () => {
   useEffect(() => {
     const loadTrendingCryptos = async () => {
       const cryptos = await fetchTrendingCryptos();
-      setTrendingCryptos(cryptos.slice(0, 4)); // Limitons à 4 cryptos pour cet exemple
+      setTrendingCryptos(cryptos.slice(0, 4));
     };
     loadTrendingCryptos();
   }, []);
 
   return (
     <>
-      <div className="flex flex-col items-start justify-center gap-4 xl:flex-row xl:items-center">
-        <div className="flex w-full flex-col gap-5 rounded-lg border p-4 shadow xl:w-1/4">
-          <h3 className="text-2xl font-semibold">Balance</h3>
+      <div className="flex flex-col items-start justify-center gap-4 px-4 xl:flex-row xl:items-center">
+        <div className="flex w-full flex-col gap-5 rounded-lg border p-4 shadow xl:w-1/3">
+          <h3 className="truncate text-2xl font-semibold">Balance</h3>
           <div className="flex items-center justify-between">
-            <p className="text-2xl font-bold">${balance.toLocaleString()}</p>
-            <p className="text-sm font-medium text-tokena_dark_gray">
+            <p className="truncate text-2xl font-bold">
+              ${balance.toLocaleString()}
+            </p>
+            <p className="truncate text-sm font-medium text-tokena_dark_gray">
               <span className="mx-2 rounded-xl bg-tokena_green/15 px-2 py-1 font-semibold text-tokena_green">
                 +2.3%
               </span>
@@ -47,10 +49,10 @@ const Trending = () => {
           </div>
         </div>
 
-        <div className="flex w-full flex-col gap-3 rounded-lg p-4 xl:w-3/4">
+        <div className="flex w-full flex-col gap-3 overflow-hidden rounded-lg p-4 xl:w-2/3">
           <div className="flex justify-between">
-            <span className="text-lg font-semibold">Trending</span>
-            <div className="flex items-center text-sm font-medium">
+            <span className="truncate text-lg font-semibold">Trending</span>
+            <div className="flex items-center truncate text-sm font-medium">
               View more
               <img
                 src="/assets/icons/arrow-right.svg"
@@ -65,21 +67,21 @@ const Trending = () => {
               {trendingCryptos.map((crypto, index) => (
                 <div
                   key={index}
-                  className="rounded-lg border px-2 py-4 shadow transition-transform hover:scale-105 md:p-4"
+                  className="overflow-hidden rounded-lg border px-2 py-4 shadow transition-transform hover:scale-105 md:p-4"
                 >
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-2">
+                  <div className="flex flex-col gap-3 overflow-hidden">
+                    <div className="flex items-center justify-between overflow-hidden">
+                      <div className="flex items-center gap-2 overflow-hidden">
                         <img
                           src={crypto.item.small}
                           alt={`${crypto.item.name} icon`}
-                          className="size-12 rounded-full"
+                          className="size-8 rounded-full xl:size-12"
                         />
-                        <div className="flex flex-col">
-                          <p className="overflow-hidden text-ellipsis font-bold text-tokena_dark_gray max-sm:max-w-7">
+                        <div className="flex flex-col overflow-hidden">
+                          <p className="max-w-xs truncate font-bold text-tokena_dark_gray">
                             {crypto.item.name}
                           </p>
-                          <p className="overflow-hidden text-ellipsis font-bold uppercase text-tokena_dark_gray/35 max-sm:max-w-7">
+                          <p className="max-w-xs truncate font-bold uppercase text-tokena_dark_gray/35">
                             {crypto.item.symbol}
                           </p>
                         </div>
@@ -107,11 +109,11 @@ const Trending = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-col">
-                      <p className="font-bold uppercase text-tokena_dark_gray">
+                    <div className="flex flex-col overflow-hidden">
+                      <p className="max-w-xs truncate font-bold uppercase text-tokena_dark_gray">
                         {crypto.item.data.price}
                       </p>
-                      <p className="font-medium text-tokena_dark_gray">
+                      <p className="max-w-xs truncate font-medium text-tokena_dark_gray">
                         Market Cap: $
                         {crypto.item.data.market_cap?.toLocaleString()}
                       </p>

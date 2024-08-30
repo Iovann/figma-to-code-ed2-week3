@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "mona";
+  src: url("/font/Mona-Sans-Regular.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}

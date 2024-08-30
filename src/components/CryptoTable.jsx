@@ -31,7 +31,7 @@ const CryptoTable = () => {
 
   // Nouveaux états pour la pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10); // Nombre initial de lignes par page
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     // Fonction pour récupérer les catégories
@@ -141,7 +141,9 @@ const CryptoTable = () => {
     try {
       const [overviewResponse, chartDataResponse] = await Promise.all([
         fetch(
-          `https://api.coingecko.com/api/v3/coins/${coinId}?x_cg_demo_api_key=CG-rXE4JJ9wxMhDucxGz8eha4tV`
+          `https://api.coingecko.com/api/v3/coins/${coinId}?x_cg_demo_api_key=${
+            import.meta.env.VITE_NEWS_API_KEY
+          }`
         ),
         fetch(
           `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=10`
@@ -178,7 +180,7 @@ const CryptoTable = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full px-4">
       <div className="mb-6 flex flex-col items-center justify-between space-y-4 px-4 md:flex-row md:space-y-0">
         <input
           type="search"
@@ -321,7 +323,7 @@ const CryptoTable = () => {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex flex-col items-center justify-between max-xl:gap-10 xl:flex-row">
         <div className="flex items-center">
           <button
             onClick={() => handlePageChange(currentPage - 1)}

@@ -10,7 +10,9 @@ const News = () => {
 
   const fetchNews = async () => {
     const response = await fetch(
-      `https://newsapi.org/v2/everything?q=tesla&from=2024-07-29&sortBy=publishedAt&apiKey=0c4b7db1e48a4d3baa3a5aeebdecaba4`
+      `https://newsapi.org/v2/everything?q=tesla&from=2024-07-29&sortBy=publishedAt&apiKey=${
+        import.meta.env.VITE_APP_NEWS_API_KEY
+      }`
     );
     const data = await response.json();
     return data.articles;
@@ -44,7 +46,7 @@ const News = () => {
 
   return (
     <ContentWrapper>
-      <section className="container mx-auto py-8">
+      <section className="mx-auto py-8">
         <h2 className="mb-6 text-2xl font-bold">Latest crypto news</h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {newsData

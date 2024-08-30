@@ -10,12 +10,12 @@ const NewsCard = ({
   urlToImage,
 }) => {
   return (
-    <div className="overflow-hidden rounded-lg bg-tokena_dark_gray/5 shadow-md">
+    <div className="mx-3 overflow-hidden rounded-lg bg-tokena_dark_gray/5 shadow-md">
       <div className="p-4">
         <div className="mb-3 flex flex-col">
           <div className="flex items-center">
             <img
-              src="/assets/icons/coin.svg" // Remplacer par le logo du source
+              src="/assets/icons/coin.svg"
               alt={source}
               className="mr-2 size-6 rounded-full"
             />
@@ -28,15 +28,13 @@ const NewsCard = ({
         </div>
         {urlToImage ? (
           <div
-            className="mb-4 rounded-3xl bg-cover bg-center bg-no-repeat"
+            className="mb-4 h-48 w-full rounded-3xl bg-cover bg-center bg-no-repeat max-sm:h-64 2xl:h-64"
             style={{
               backgroundImage: `url(${urlToImage})`,
-              width: "315px",
-              height: "195px",
             }}
           ></div>
         ) : (
-          <div className="mb-4 h-[195px] w-[315px] rounded-3xl bg-gray-200"></div>
+          <div className="mb-4 h-48 w-full rounded-3xl bg-gray-200"></div>
         )}
         <h3 className="mb-2 text-lg font-semibold">{title}</h3>
         <p className="mb-4 text-sm text-gray-600">{content}</p>

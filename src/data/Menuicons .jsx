@@ -3,7 +3,7 @@ export const menuItems = [
     icon: "/assets/icons/home.svg",
     title: "Dashboard",
     path: "/",
-    white: "public/assets/icons/home-white.svg",
+    white: "/assets/icons/home-white.svg",
   },
   {
     icon: "/assets/icons/news.svg",

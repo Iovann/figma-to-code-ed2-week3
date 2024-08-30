@@ -7,6 +7,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
@@ -196,6 +197,46 @@ const CryptoModal = ({
       </div>
     </div>
   );
+};
+
+CryptoModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  crypto: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    symbol: PropTypes.string.isRequired,
+    image: PropTypes.shape({
+      small: PropTypes.string.isRequired,
+    }).isRequired,
+    market_data: PropTypes.shape({
+      current_price: PropTypes.shape({
+        usd: PropTypes.number.isRequired,
+      }).isRequired,
+      price_change_24h: PropTypes.number.isRequired,
+      market_cap_rank: PropTypes.number.isRequired,
+      market_cap: PropTypes.shape({
+        usd: PropTypes.number.isRequired,
+      }).isRequired,
+      circulating_supply: PropTypes.number.isRequired,
+      high_24h: PropTypes.shape({
+        usd: PropTypes.number.isRequired,
+      }).isRequired,
+      low_24h: PropTypes.shape({
+        usd: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
+    chartData: PropTypes.arrayOf(
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      )
+    ).isRequired,
+    description: PropTypes.shape({
+      en: PropTypes.string,
+    }),
+  }).isRequired,
+  favorites: PropTypes.arrayOf(PropTypes.string).isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
 };
 
 export default CryptoModal;

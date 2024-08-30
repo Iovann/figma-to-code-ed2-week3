@@ -18,6 +18,9 @@ module.exports = {
         tokena_dark_blue_1: "#171923",
         tokena_dark_blue_2: "#292C3B",
       },
+      fontFamily: {
+        sans: ["mona", "sans-serif"],
+      },
     },
   },
   plugins: [],
