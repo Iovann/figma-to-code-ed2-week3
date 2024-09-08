@@ -75,11 +75,18 @@ const CryptoModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="relative max-w-2xl rounded-lg  bg-white p-4 shadow-lg dark:bg-tokena_dark_blue_1 max-sm:mx-2 max-sm:w-full">
-        {/* Bouton de fermeture du modal */}
+    <div
+      className={`fixed inset-0 z-50 flex justify-end bg-black/50 ${
+        isOpen ? "visible" : "invisible"
+      }`}
+    >
+      <div
+        className={`relative h-screen w-full max-w-2xl overflow-y-auto rounded-lg bg-white p-4 shadow-lg transition-transform duration-300 dark:bg-tokena_dark_blue_1 max-sm:mx-2 max-sm:w-full${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
         <button
-          className="absolute right-2 top-2 rounded-full bg-tokena_dark_gray/25 p-1"
+          className="absolute right-2 top-2 rounded-full bg-tokena_dark_gray/25 p-1 "
           onClick={onClose}
         >
           <img
@@ -87,11 +94,13 @@ const CryptoModal = ({
             alt="Close button"
             width="20"
             height="20"
+            className="dark:invert"
           />
         </button>
+
         <div className="p-4">
           {/* Graphique de prix */}
-          <div>
+          <div className="overflow-x-auto" style={{ height: "50%" }}>
             <Line options={options} data={data} />
           </div>
 
@@ -159,7 +168,8 @@ const CryptoModal = ({
                 Description
               </h3>
               <p className="break-words text-sm text-tokena_dark_gray dark:text-gray-400">
-                {crypto.description?.en.split(".")[0]}
+                {crypto.description?.en.substring(0, 700)}
+                {crypto.description?.en.length > 300 && "..."}
               </p>
             </div>
             <div

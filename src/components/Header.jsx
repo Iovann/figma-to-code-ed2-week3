@@ -9,7 +9,7 @@ const Header = ({ toggleSidebar, isOpen, toggleDarkMode }) => {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 dark:bg-gray-900 dark:text-tokena_gray">
+    <div className="flex items-center justify-between p-4 dark:bg-tokena_dark_blue_1 dark:text-tokena_gray">
       <div className="flex">
         <button
           className="text-gray-800 focus:outline-none dark:text-white lg:hidden"
@@ -35,11 +35,15 @@ const Header = ({ toggleSidebar, isOpen, toggleDarkMode }) => {
             </p>
           )}
         </button>
-        <div className="flex flex-col max-sm:text-sm sm:ms-3">
-          <h1 className="text-lg font-semibold">Dashboard</h1>
-          <p className="truncate">Welcome back!</p>
-          <h1 className="text-lg/6 font-semibold">Dashboard</h1>
-          <p className="truncate">Welcome back, John Doe !</p>
+        <div className="flex flex-col max-lg:ms-3 max-sm:text-sm">
+          <div className="lg:hidden">
+            <h1 className="text-base font-semibold">Dashboard</h1>
+            <p className="truncate">Welcome back!</p>
+          </div>
+          <div className="max-lg:hidden">
+            <h1 className="text-lg/6 font-semibold">Dashboard</h1>
+            <p className="truncate">Welcome back, John Doe !</p>
+          </div>
         </div>
         <div className="ms-9 hidden items-center rounded-2xl bg-tokena_blue px-4 text-tokena_white sm:flex">
           <img

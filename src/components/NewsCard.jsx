@@ -10,7 +10,7 @@ const NewsCard = ({
   urlToImage,
 }) => {
   return (
-    <div className="mx-3 overflow-hidden rounded-lg bg-tokena_dark_gray/5 shadow-md">
+    <div className="overflow-hidden rounded-2xl border border-tokena_light_gray bg-tokena_white dark:bg-tokena_dark_blue_2">
       <div className="p-4">
         <div className="mb-3 flex flex-col">
           <div className="flex items-center">
@@ -19,7 +19,9 @@ const NewsCard = ({
               alt={source}
               className="mr-2 size-6 rounded-full"
             />
-            <span className="font-semibold text-gray-600">{source}</span>
+            <span className="font-semibold text-gray-600 dark:text-tokena_white">
+              {source}
+            </span>
           </div>
           <p>
             <span className="font-medium">News</span>
@@ -37,7 +39,9 @@ const NewsCard = ({
           <div className="mb-4 h-48 w-full rounded-3xl bg-gray-200"></div>
         )}
         <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-        <p className="mb-4 text-sm text-gray-600">{content}</p>
+        <p className="mb-4 text-sm text-gray-600 dark:text-tokena_white">
+          {content}
+        </p>
         <div className="flex items-center text-gray-500">
           <button className="mr-4 flex items-center">
             <img

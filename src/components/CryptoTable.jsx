@@ -223,9 +223,10 @@ const CryptoTable = () => {
         <button className="rounded-lg border border-tokena_gray p-2 font-medium text-tokena_dark shadow-sm dark:border-tokena_dark_gray dark:text-tokena_light_gray sm:mt-0">
           <img
             src="/assets/icons/params.svg"
-            alt="parametre"
+            alt="settings"
             width="18"
             height="18"
+            className="dark:invert"
           />
         </button>
       </div>
@@ -275,6 +276,7 @@ const CryptoTable = () => {
                           alt="Star empty"
                           width="20"
                           height="20"
+                          className="dark:invert"
                         />
                       )}
                     </button>
@@ -368,7 +370,7 @@ const CryptoTable = () => {
           </button>
         </div>
 
-        <div>
+        <div className="">
           <label htmlFor="rowsPerPage" className="mr-2">
             Rows per page:
           </label>
@@ -376,7 +378,7 @@ const CryptoTable = () => {
             id="rowsPerPage"
             value={rowsPerPage}
             onChange={handleRowsChange}
-            className="rounded border border-tokena_gray p-1"
+            className="rounded border border-tokena_gray p-1 dark:bg-tokena_dark_blue_2 dark:text-white"
           >
             <option value={5}>5</option>
             <option value={10}>10</option>

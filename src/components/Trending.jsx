@@ -27,7 +27,7 @@ const Trending = () => {
   return (
     <>
       <div className="flex flex-col items-start justify-center gap-4 px-4 dark:bg-tokena_dark_blue_1 dark:text-tokena_light_gray xl:flex-row xl:items-center">
-        <div className="flex w-full flex-col gap-5 rounded-lg border p-4 shadow max-md:px-10 xl:w-1/4">
+        <div className="flex w-full flex-col gap-5 rounded-lg border p-2 shadow max-md:px-10 lg:p-4 xl:w-1/4">
           <h3 className="truncate text-2xl font-semibold">Balance</h3>
           <div className="flex items-center justify-between">
             <p className="truncate text-2xl font-bold">
