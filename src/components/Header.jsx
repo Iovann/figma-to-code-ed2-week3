@@ -18,7 +18,7 @@ const Header = ({ toggleSidebar, isOpen, toggleDarkMode }) => {
           {isOpen ? (
             <img
               src="/assets/icons/close.svg"
-              alt="hmg menu"
+              alt="Close menu"
               className="h-auto max-w-full"
               width={20}
               height={20}
@@ -36,13 +36,15 @@ const Header = ({ toggleSidebar, isOpen, toggleDarkMode }) => {
           )}
         </button>
         <div className="flex flex-col max-sm:text-sm sm:ms-3">
+          <h1 className="text-lg font-semibold">Dashboard</h1>
+          <p className="truncate">Welcome back!</p>
           <h1 className="text-lg/6 font-semibold">Dashboard</h1>
           <p className="truncate">Welcome back, John Doe !</p>
         </div>
         <div className="ms-9 hidden items-center rounded-2xl bg-tokena_blue px-4 text-tokena_white sm:flex">
           <img
             src="/assets/icons/add-wallet.svg"
-            alt={"add-Wallet"}
+            alt="Add wallet"
             className="mx-2 h-auto max-w-full"
           />
           <p className="text-lg font-bold">Connect Wallet</p>
@@ -77,7 +79,7 @@ const Header = ({ toggleSidebar, isOpen, toggleDarkMode }) => {
             <p className="rounded-xl border border-tokena_gray p-2 dark:border-tokena_gray">
               <img
                 src="/assets/icons/sun.svg"
-                alt="sun icon"
+                alt="Light mode"
                 className="h-auto max-w-full"
                 width={20}
                 height={20}
@@ -87,7 +89,7 @@ const Header = ({ toggleSidebar, isOpen, toggleDarkMode }) => {
             <p className="rounded-xl border border-tokena_gray p-2 dark:border-tokena_gray">
               <img
                 src="/assets/icons/moon.svg"
-                alt="moon icon"
+                alt="Dark mode"
                 className="h-auto max-w-full"
                 width={20}
                 height={20}

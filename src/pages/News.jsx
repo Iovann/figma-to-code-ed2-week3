@@ -58,8 +58,10 @@ const News = () => {
   return (
     <ContentWrapper>
       <section className="mx-auto py-8">
-        <h2 className="mb-6 text-2xl font-bold">Latest crypto news</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <h2 className="mb-6 text-2xl font-bold dark:text-tokena_light_gray">
+          Latest crypto news
+        </h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {newsData
             .filter((news) => news.urlToImage)
             .slice(0, displayedItems)

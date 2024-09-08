@@ -28,6 +28,8 @@ const CryptoTable = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [cryptos, setCryptos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Nouveaux états pour la pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +38,8 @@ const CryptoTable = () => {
   useEffect(() => {
     // Fonction pour récupérer les catégories
     const fetchCategories = async () => {
+      setLoading(true);
+      setError(""); // Réinitialiser l'erreur avant chaque chargement
       try {
         const response = await fetch(
           "https://api.coingecko.com/api/v3/coins/categories/list"
@@ -46,12 +50,17 @@ const CryptoTable = () => {
         const data = await response.json();
         setCategories(data);
       } catch (error) {
+        setError("Erreur lors de la récupération des catégories.");
         console.error("Erreur lors de la récupération des catégories :", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     // Fonction pour récupérer les données crypto
     const fetchCryptoData = async () => {
+      setLoading(true);
+      setError(""); // Réinitialiser l'erreur avant chaque chargement
       try {
         const response = await fetch(
           "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true"
@@ -62,10 +71,13 @@ const CryptoTable = () => {
         const data = await response.json();
         setCryptos(data);
       } catch (error) {
+        setError("Erreur lors de la récupération des données crypto.");
         console.error(
           "Erreur lors de la récupération des données crypto :",
           error
         );
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -79,7 +91,7 @@ const CryptoTable = () => {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
-    setCurrentPage(1); // Réinitialiser la page à 1 lors du changement de catégorie
+    setCurrentPage(1);
   };
 
   const filteredCryptos = cryptos.filter(
@@ -180,8 +192,8 @@ const CryptoTable = () => {
   };
 
   return (
-    <div className="w-full px-4">
-      <div className="mb-6 flex flex-col items-center justify-between space-y-4 px-4 md:flex-row md:space-y-0">
+    <div className="w-full px-4 pt-6 dark:bg-tokena_dark_blue_1 dark:text-tokena_white">
+      <div className="mb-6 flex flex-col items-center justify-between space-y-4 sm:flex-row  sm:gap-6 sm:space-y-0">
         <input
           type="search"
           className="w-full rounded-lg border border-tokena_gray bg-white px-4 py-2 text-sm text-tokena_dark focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-tokena_dark_gray dark:bg-tokena_dark_blue_1 dark:text-tokena_light_gray md:w-64"
@@ -217,110 +229,122 @@ const CryptoTable = () => {
           />
         </button>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse">
-          <thead>
-            <tr className="bg-tokena_gray/30 text-sm font-semibold  uppercase text-tokena_dark dark:bg-tokena_dark_blue_2 dark:text-tokena_light_gray xl:text-base">
-              <th className="px-4 py-2"></th>
-              <th className="px-4 py-2">#</th>
-              <th className="px-4 py-2 text-left">Crypto</th>
-              <th className="px-4 py-2 text-right">Prix</th>
-              <th className="px-4 py-2 text-right">24h %</th>
-              <th className="px-4 py-2 text-right">Volume 24h</th>
-              <th className="px-4 py-2 text-right">Market Cap</th>
-              <th className="px-4 py-2">Last 7 Days</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentCryptos.map((crypto, index) => (
-              <tr
-                key={crypto.id}
-                className="border-b border-tokena_gray text-sm dark:border-tokena_dark_gray xl:text-xl"
-              >
-                <td className="text-center max-md:mx-2">
-                  <button onClick={() => toggleFavorite(crypto.id)}>
-                    {favorites.includes(crypto.id) ? (
-                      <img
-                        src="/assets/icons/star-filled.svg"
-                        alt="Star filled"
-                        width="20"
-                        height="20"
-                      />
-                    ) : (
-                      <img
-                        src="/assets/icons/star-empty.svg"
-                        alt="Star empty"
-                        width="20"
-                        height="20"
-                      />
-                    )}
-                  </button>
-                </td>
-                <td className="px-4 py-2 text-center">
-                  {indexOfFirstCrypto + index + 1}
-                </td>
-                <td className="w-72 p-2 xl:w-52 xl:px-4">
-                  <div
-                    className="flex cursor-pointer flex-nowrap items-center whitespace-nowrap text-sm xl:text-xl"
-                    onClick={() => handleCryptoClick(crypto.id)}
-                  >
-                    <img
-                      src={crypto.image}
-                      alt={crypto.name}
-                      className="mr-2 size-6"
-                    />
-                    <span className="font-medium">
-                      {crypto.name} - {crypto.symbol.toUpperCase()}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-4 py-2 text-right text-sm max-md:ps-16 xl:text-lg">
-                  ${crypto.current_price.toLocaleString()}
-                </td>
-                <td className="px-4 py-2 text-right">
-                  <span
-                    className={`rounded-full px-2 py-1 ${
-                      crypto.price_change_percentage_24h > 0
-                        ? "bg-tokena_green/20 text-tokena_green"
-                        : "bg-tokena_red/20 text-tokena_red"
-                    }`}
-                  >
-                    {crypto.price_change_percentage_24h.toFixed(2)}%
-                  </span>
-                </td>
-                <td className="px-4 py-2 text-right text-sm xl:text-lg">
-                  ${crypto.total_volume.toLocaleString()}
-                </td>
-                <td className="px-4 py-2 text-right text-sm xl:text-lg">
-                  ${crypto.market_cap.toLocaleString()}
-                </td>
-                <td className="px-4 py-2">
-                  <div className="mx-auto h-16 w-28 md:w-32 xl:w-40">
-                    <Line
-                      data={{
-                        labels: crypto.sparkline_in_7d.price.map((_, i) => i),
-                        datasets: [
-                          {
-                            data: crypto.sparkline_in_7d.price,
-                            borderColor:
-                              crypto.price_change_percentage_24h > 0
-                                ? "#01B130"
-                                : "#CB0101",
-                            borderWidth: 1,
-                            fill: false,
-                            tension: 0.1,
-                          },
-                        ],
-                      }}
-                      options={chartOptions}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+      <div className="w-full px-4">
+        {loading && <p>Data loading ...</p>}
+        {error && (
+          <div className="mt-4 rounded-lg border border-red-500 bg-red-100 p-4 text-center text-red-700">
+            An error has occured please reload the page
+          </div>
+        )}
       </div>
+
+      {!loading && !error && (
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto border-collapse">
+            <thead>
+              <tr className="bg-tokena_gray/30 text-sm font-semibold  uppercase text-tokena_dark dark:bg-tokena_dark_blue_2 dark:text-tokena_light_gray xl:text-base">
+                <th className="px-4 py-2"></th>
+                <th className="px-4 py-2">#</th>
+                <th className="px-4 py-2 text-left">Crypto</th>
+                <th className="px-4 py-2 text-right">Prix</th>
+                <th className="px-4 py-2 text-right">24h %</th>
+                <th className="px-4 py-2 text-right">Volume 24h</th>
+                <th className="px-4 py-2 text-right">Market Cap</th>
+                <th className="px-4 py-2">Last 7 Days</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentCryptos.map((crypto, index) => (
+                <tr
+                  key={crypto.id}
+                  className="border-b border-tokena_gray text-sm dark:border-tokena_dark_gray xl:text-xl"
+                >
+                  <td className="text-center max-md:mx-2">
+                    <button onClick={() => toggleFavorite(crypto.id)}>
+                      {favorites.includes(crypto.id) ? (
+                        <img
+                          src="/assets/icons/star-filled.svg"
+                          alt="Star filled"
+                          width="20"
+                          height="20"
+                        />
+                      ) : (
+                        <img
+                          src="/assets/icons/star-empty.svg"
+                          alt="Star empty"
+                          width="20"
+                          height="20"
+                        />
+                      )}
+                    </button>
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    {indexOfFirstCrypto + index + 1}
+                  </td>
+                  <td className="w-72 p-2 xl:w-52 xl:px-4">
+                    <div
+                      className="flex cursor-pointer flex-nowrap items-center whitespace-nowrap text-sm xl:text-xl"
+                      onClick={() => handleCryptoClick(crypto.id)}
+                    >
+                      <img
+                        src={crypto.image}
+                        alt={crypto.name}
+                        className="mr-2 size-6"
+                      />
+                      <span className="font-medium">
+                        {crypto.name} - {crypto.symbol.toUpperCase()}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-2 text-right text-sm max-md:ps-16 xl:text-lg">
+                    ${crypto.current_price.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 text-right">
+                    <span
+                      className={`rounded-full px-2 py-1 ${
+                        crypto.price_change_percentage_24h > 0
+                          ? "bg-tokena_green/20 text-tokena_green"
+                          : "bg-tokena_red/20 text-tokena_red"
+                      }`}
+                    >
+                      {crypto.price_change_percentage_24h.toFixed(2)}%
+                    </span>
+                  </td>
+                  <td className="px-4 py-2 text-right text-sm xl:text-lg">
+                    ${crypto.total_volume.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 text-right text-sm xl:text-lg">
+                    ${crypto.market_cap.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="mx-auto h-16 w-28 md:w-32 xl:w-40">
+                      <Line
+                        data={{
+                          labels: crypto.sparkline_in_7d.price.map((_, i) => i),
+                          datasets: [
+                            {
+                              data: crypto.sparkline_in_7d.price,
+                              borderColor:
+                                crypto.price_change_percentage_24h > 0
+                                  ? "#01B130"
+                                  : "#CB0101",
+                              borderWidth: 1,
+                              fill: false,
+                              tension: 0.1,
+                            },
+                          ],
+                        }}
+                        options={chartOptions}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Pagination */}
       <div className="mt-4 flex flex-col items-center justify-between max-xl:gap-10 xl:flex-row">
